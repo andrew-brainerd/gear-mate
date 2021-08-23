@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Gear Mate</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+  <div id="header">Gear Mate</div>
+  <div id="content">
+    <div id="logoContainer">
+      <img src="src/img/vault.png" alt="Gear Mate" />
+    </div>
+    <div id="username"></div>
+    <div id="gamePathDisplay">
+      <div id="currentGamePath"></div>
+      <button onclick="editGamePath()">Edit Game Path</button>
+    </div>
+    <div id="gamePathInput" class="inputContainer">
+      <input id="gamePath" type="text" placeholder="Enter WoW Classic Game Path" />
+      <button onclick="updateGamePath()">Update</button>
+    </div>
+    <div id="errorContainer"></div>
+  </div>
+  <div class="attribution">
+    <div>
+      Icons made by
+        <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a> from 
+        <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+
+</html>

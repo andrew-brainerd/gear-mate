@@ -1,0 +1,84 @@
+body {
+  align-items: center;
+  background: #7383BF;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  height: 450px;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  z-index: 0;
+}
+
+#header {
+  background: #4d4d4d;
+  color: white;
+  display: none;
+  height: 25px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 5;
+  -webkit-app-region: drag;
+}
+
+#content {
+  height: 350px;
+  position: relative;
+  text-align: center;
+  top: -50px;
+  z-index: 1;
+}
+
+img {
+  margin: 25px auto;
+  width: 100px;
+}
+
+h3 {
+  text-align: center;
+}
+
+button {
+  margin: 10px 0;
+}
+
+#logoContainer {
+  height: 175px;
+}
+
+#gamePathInput {
+  display: none;
+}
+
+#username, #connectCode {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+#gamePathDisplay {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+#dropContainer {
+  align-items: center;
+  border: 2px dashed black;
+  display: none;
+  justify-content: center;
+  margin: 25px auto 0 auto;
+  position: relative;
+  height: 100px;
+  width: 90%;
+  z-index: 5;
+}
+
+.attribution {
+  font-size: 12px;
+}
