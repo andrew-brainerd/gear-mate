@@ -3,7 +3,7 @@ const { prop } = require('ramda');
 
 const basicJsonHeader = { 'Content-Type': 'application/json' };
 
-const BASE_API_URL = process.env.API_URL || 'https://gear-mate-server.herokuapp.com/api';
+const BASE_API_URL = process.env.API_URL || 'https://tentative-server.herokuapp.com/api';
 
 const client = axios.create({
   baseURL: BASE_API_URL,

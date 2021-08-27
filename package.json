@@ -1,12 +1,12 @@
 {
-  "name": "raid-locker",
+  "name": "tentative-guild-mate",
   "version": "1.0.0",
-  "description": "WoW Classic Raid Status Tracker",
+  "description": "<Tentative> Guild Utility",
   "main": "main.js",
   "author": "Andrew Brainerd",
   "license": "MIT",
   "build": {
-    "appId": "com.brainz.raid-locker",
+    "appId": "com.brainz.tentative-guild-mate",
     "files": [
       "**/*",
       "build/icon.*"
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrew-brainerd/raid-locker.git"
+    "url": "https://github.com/andrew-brainerd/tentative-guild-mate.git"
   },
   "dependencies": {
     "auto-launch": "^5.0.5",

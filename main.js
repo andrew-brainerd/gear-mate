@@ -18,7 +18,7 @@ const createWindow = () => {
 
   mainWindow = new BrowserWindow({
     frame: true,
-    title: 'Gear Mate',
+    title: '<Tentative> GuildMate',
     width: windowWidth,
     height: windowHeight,
     x: xPosition,
@@ -46,7 +46,7 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 };
 
-const showTrayNotification = (message, title = 'Gear Mate', action) => {
+const showTrayNotification = (message, title = '<Tentative> GuildMate', action) => {
   tray.displayBalloon({
     title,
     icon: getAppIcon(),
@@ -75,12 +75,12 @@ const createTray = () => {
     }
   ]);
 
-  tray.setToolTip('Gear Mate');
+  tray.setToolTip('<Tentative> GuildMate');
   tray.setContextMenu(contextMenu);
   tray.on('click', () => mainWindow.show());
   showTrayNotification(
     'Now tracking your saved instances', 
-    'Gear Mate Running'
+    '<Tentative> GuildMate Running'
   );
 };
 

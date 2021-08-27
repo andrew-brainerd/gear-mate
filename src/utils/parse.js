@@ -23,10 +23,6 @@ function getGearData(data) {
   ).value.fields;
 }
 
-function getItemText(item) {
-  return `${item.itemSlot}: ${item.itemName} (${item.itemRarity}) [${getWowheadUrl(item.itemId)}]\n`;
-}
-
 function getRawValue(field, index) {
   return removeQuotes(field.value.fields[index].value.raw);
 }
@@ -34,8 +30,6 @@ function getRawValue(field, index) {
 function getValue(field, index) {
   return field.value.fields[index].value.value;
 }
-
-const getWowheadUrl = itemId => `https://www.wowhead.com/item=${itemId}`;
 
 function parseSavedVariables() {
   try {
