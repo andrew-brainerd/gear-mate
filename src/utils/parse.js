@@ -7,8 +7,20 @@ function getCharacterName(data) {
   return removeQuotes(data.body[0].init[0].fields[0].key.raw);
 }
 
-function getGearData(data) {
+function getCharacterClass(data) {
+  return getCharacterData(data).find(d =>
+    removeQuotes(d.key.raw) === 'characterClass'
+  ).value.raw;
+}
+
+function getCharacterData(data) {
   return data.body[0].init[0].fields[0].value.fields;
+}
+
+function getGearData(data) {
+  return getCharacterData(data).find(d =>
+    removeQuotes(d.key.raw) === 'gear'
+  ).value.fields;
 }
 
 function getItemText(item) {
@@ -30,7 +42,13 @@ function parseSavedVariables() {
     const data = fs.readFileSync(process.env.FILE_PATH, 'utf8');
     const parsedData = luaparse.parse(data);
     const characterName = getCharacterName(parsedData);
+    const characterClass = getCharacterClass(parsedData);
     const gearData = getGearData(parsedData);
+
+    const character = {
+      characterName,
+      characterClass
+    };
 
     const gear = gearData.map(field => {
       if (field.value.fields) {
@@ -45,8 +63,9 @@ function parseSavedVariables() {
       return {};
     }).filter(item => item.itemId);
 
-    // writeGearToFile(gear);
-    gearUpdated(characterName, gear);
+    console.log(`Updating gear for ${characterName}`);
+
+    gearUpdated(character, gear);
   } catch (err) {
     console.error(err);
   }
@@ -54,23 +73,6 @@ function parseSavedVariables() {
 
 function removeQuotes(str) {
   return str.replace(/"/g, '');
-}
-
-function writeGearToFile(gear) {
-  const filePath = 'H:\\MyCurrentGear';
-
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
-  }
-
-  gear.forEach(item => {
-    fs.appendFileSync(filePath, getItemText(item), err => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  });
 }
 
 module.exports = {

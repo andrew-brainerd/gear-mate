@@ -12,8 +12,8 @@ const client = axios.create({
   maxBodyLength: Infinity
 });
 
-const gearUpdated = async (name, gear) => {
-  return await client.post('/gear', { name, gear })
+const gearUpdated = async (character, gear) => {
+  return await client.post('/gear', { character, gear })
     .then(prop('data'))
     .catch(err => console.error(err));
 };
