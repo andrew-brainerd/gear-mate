@@ -7,6 +7,9 @@
   "license": "MIT",
   "build": {
     "appId": "com.brainz.tentative-guild-mate",
+    "nsis": {
+      "artifactName": "tentative-guild-mate-${version}-${arch}.${ext}"
+    },
     "files": [
       "**/*",
       "build/icon.*"

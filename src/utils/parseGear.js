@@ -1,5 +1,5 @@
-require('dotenv').config();
 const fs = require('fs');
+const log = require('electron-log');
 const luaparse = require('luaparse');
 const { gearUpdated } = require('../api');
 
@@ -8,9 +8,11 @@ function getCharacterName(data) {
 }
 
 function getCharacterClass(data) {
-  return getCharacterData(data).find(d =>
+  const characterClass = getCharacterData(data).find(d =>
     removeQuotes(d.key.raw) === 'characterClass'
   ).value.raw;
+
+  return characterClass ? removeQuotes(characterClass) : '';
 }
 
 function getCharacterData(data) {
@@ -24,16 +26,16 @@ function getGearData(data) {
 }
 
 function getRawValue(field, index) {
-  return removeQuotes(field.value.fields[index].value.raw);
+  return removeQuotes(field.value.fields[index]?.value?.raw);
 }
 
 function getValue(field, index) {
-  return field.value.fields[index].value.value;
+  return field?.value?.fields[index]?.value?.value;
 }
 
-function parseSavedVariables() {
+function parseSavedGear(filePath) {
   try {
-    const data = fs.readFileSync(process.env.FILE_PATH, 'utf8');
+    const data = fs.readFileSync(filePath, 'utf8');
     const parsedData = luaparse.parse(data);
     const characterName = getCharacterName(parsedData);
     const characterClass = getCharacterClass(parsedData);
@@ -57,7 +59,9 @@ function parseSavedVariables() {
       return {};
     }).filter(item => item.itemId);
 
-    console.log(`Updating gear for ${characterName}`);
+    log.info(`Updating gear for ${characterName}`);
+
+    require('../../main').showTrayNotification(`Uploaded gear for ${characterName}`, 'Updated Gear');
 
     gearUpdated(character, gear);
   } catch (err) {
@@ -70,5 +74,5 @@ function removeQuotes(str) {
 }
 
 module.exports = {
-  parseSavedVariables
+  parseSavedGear
 };

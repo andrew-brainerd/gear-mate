@@ -2,7 +2,7 @@ require('dotenv').config();
 const { app, BrowserWindow, screen, Tray, Menu } = require('electron');
 const noop = require('./src/utils/noop');
 const { autoLaunchApplication } = require('./src/autoLaunch');
-const { initializeWatcher } = require('./src/replayWatcher');
+const { initializeWatcher } = require('./src/watcher');
 const getAppIcon = require('./getAppIcon');
 
 let tray = null;
@@ -71,7 +71,7 @@ const createTray = () => {
     },
     {
       label: 'Exit',
-      click: () => mainWindow.destroy()
+      click: () => closeApplication()
     }
   ]);
 
@@ -79,7 +79,7 @@ const createTray = () => {
   tray.setContextMenu(contextMenu);
   tray.on('click', () => mainWindow.show());
   showTrayNotification(
-    'Now tracking your saved instances', 
+    'Syncing guild info...', 
     '<Tentative> GuildMate Running'
   );
 };
@@ -99,6 +99,10 @@ const preventMultipleInstances = () => {
   }
 };
 
+const closeApplication = () => {
+  mainWindow.destroy();
+};
+
 app.whenReady().then(() => {
   autoLaunchApplication();
   preventMultipleInstances();
@@ -108,5 +112,6 @@ app.whenReady().then(() => {
 });
 
 module.exports = {
-  showTrayNotification
+  showTrayNotification,
+  closeApplication
 };

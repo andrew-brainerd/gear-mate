@@ -1,8 +1,8 @@
 const AutoLaunch = require('auto-launch');
 
 const autoLaunchApplication = () => {
-  const raidLockerAutoLauncher = new AutoLaunch({ name: '<Tentative> GuildMate' });
-  raidLockerAutoLauncher.enable();
+  const GuildMateAutoLauncher = new AutoLaunch({ name: '<Tentative> GuildMate' });
+  GuildMateAutoLauncher.enable();
 };
 
 module.exports = {

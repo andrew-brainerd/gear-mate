@@ -1,37 +1,38 @@
 const Store = require('electron-store');
 const log = require('electron-log');
-const { initializeWatcher } = require('./src/replayWatcher');
-const { initializeUserDrop } = require('./src/userDrop');
+const { initializeWatcher } = require('./src/watcher');
 const { DEFAULT_GAME_PATH } = require('./src/constants');
 
 const store = new Store();
 
+const getById = id => document.getElementById(id);
+const getValue = id => getById(id).value;
+const setValue = (id, value) => getById(id).value = value;
+const setText = (id, text) => getById(id).innerText = text;
+const showElement = id => getById(id).style.display = 'block';
+const hideElement = id => getById(id).style.display = 'none';
+
 document.addEventListener('DOMContentLoaded', () => {
   const currentGamePath = store.get('gamePath') || DEFAULT_GAME_PATH;
-  document.getElementById('gamePath').value = currentGamePath;
-  document.getElementById('currentGamePath').innerText = `Game Path: ${currentGamePath}`;
 
-  const username = document.getElementById('username');
-  username.innerText = store.get('username') ? `Name: ${store.get('username')}` : '';
-
-  const connectCode = document.getElementById('connectCode');
-  connectCode.innerText = store.get('connectCode') ? `Netplay ID: ${store.get('connectCode')}` : '';
-
-  initializeUserDrop();
+  setValue('gamePath', currentGamePath);
+  setText('currentGamePath', `Game Path: ${currentGamePath}`);
 });
 
 const editGamePath = () => {
-  document.getElementById('gamePathDisplay').style.display = 'none';
-  document.getElementById('gamePathInput').style.display = 'block';
+  hideElement('gamePathDisplay');
+  showElement('gamePathInput');
 };
 
 const updateGamePath = () => {
-  const gamePath = document.getElementById('gamePath').value;
-  document.getElementById('currentGamePath').innerText = `Replay Path: ${gamePath}`;
-  document.getElementById('gamePathDisplay').style.display = 'block';
-  document.getElementById('gamePathInput').style.display = 'none';
+  const gamePath = getValue('gamePath');
+
+  setText('currentGamePath', `Game Path: ${gamePath}`);
+  hideElement('gamePathInput');
+  showElement('gamePathDisplay');
 
   log.info('Updating game path to', gamePath);
   store.set('gamePath', gamePath);
+
   initializeWatcher();
 };
