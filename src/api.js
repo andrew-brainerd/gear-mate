@@ -18,8 +18,10 @@ const gearUpdated = async (character, gear) => {
     .catch(err => console.error(err));
 };
 
-const guildUpdated = async info => {
-  console.log('Pushing guild update to API', info);
+const guildUpdated = async guild => {
+  return await client.post('/guild', { guild })
+    .then(prop('data'))
+    .catch(err => console.error(err));
 };
 
 module.exports = {
