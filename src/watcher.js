@@ -27,19 +27,19 @@ const initializeWatcher = async () => {
     savedVariablesPaths.forEach(path => {
       log.info(`Initializing watcher at ${path}`);
     });
-  
+
     watcher = chokidar.watch(savedVariablesPaths, {
       depth: 0,
       persistent: true,
       usePolling: true,
       ignoreInitial: true,
     });
-  
+
     watcher.on('change', path => {
       log.info('File Updated:', path);
-  
+
       const addonName = getAddonName(path);
-  
+
       if (addonName === 'TentativeGuildMate') {
         parseSavedGuildInfo(path);
       } else if (addonName === 'GearMate') {
@@ -49,12 +49,12 @@ const initializeWatcher = async () => {
       }
     });
   } else {
-    const { showTrayNotification, closeApplication } = require('../main');
-    log.error('Please install the addons first');
-    showTrayNotification('Please install the addons first', 'Error');
-    setTimeout(() => {
-      closeApplication();
-    }, 3000);
+    const { showTrayNotification, showApplication } = require('../main');
+    showTrayNotification(
+      'Invalid WoW game path provided',
+      'Error',
+      () => showApplication()
+    );
   }
 };
 

@@ -1,7 +1,6 @@
 const Store = require('electron-store');
 const log = require('electron-log');
 const { initializeWatcher } = require('./src/watcher');
-const { DEFAULT_GAME_PATH } = require('./src/constants');
 
 const store = new Store();
 
@@ -13,7 +12,7 @@ const showElement = id => getById(id).style.display = 'block';
 const hideElement = id => getById(id).style.display = 'none';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const currentGamePath = store.get('gamePath') || DEFAULT_GAME_PATH;
+  const currentGamePath = store.get('gamePath');
 
   setValue('gamePath', currentGamePath);
   setText('currentGamePath', currentGamePath);

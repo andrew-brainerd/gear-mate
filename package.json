@@ -1,6 +1,6 @@
 {
   "name": "tentative-guild-mate",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "<Tentative> Guild Utility",
   "main": "main.js",
   "author": "Andrew Brainerd",
@@ -26,6 +26,8 @@
     "dotenv": "^10.0.0",
     "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
+    "electron-unhandled": "^3.0.2",
+    "electron-util": "^0.17.1",
     "luaparse": "^0.3.0",
     "moment": "^2.29.1",
     "ramda": "^0.27.1",

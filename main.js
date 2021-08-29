@@ -1,12 +1,18 @@
 require('dotenv').config();
 const { app, BrowserWindow, screen, Tray, Menu } = require('electron');
+const Store = require('electron-store');
 const noop = require('./src/utils/noop');
+const { handleErrors}  = require('./src/utils/errors');
 const { autoLaunchApplication } = require('./src/autoLaunch');
+const { initializeStore } = require('./src/store');
 const { initializeWatcher } = require('./src/watcher');
+const { APP_NAME } = require('./src/constants');
 const getAppIcon = require('./getAppIcon');
 
 let tray = null;
 let mainWindow = null;
+
+const store = new Store();
 
 const createWindow = () => {
   const primaryDisplay = screen.getPrimaryDisplay();
@@ -16,9 +22,11 @@ const createWindow = () => {
   const xPosition = primaryDisplay.bounds.width - windowWidth;
   const yPosition = primaryDisplay.bounds.height - windowHeight - taskBarHeight;
 
+  console.log('Store', store);
+
   mainWindow = new BrowserWindow({
     frame: true,
-    title: '<Tentative> GuildMate',
+    title: APP_NAME,
     width: windowWidth,
     height: windowHeight,
     x: xPosition,
@@ -46,7 +54,7 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 };
 
-const showTrayNotification = (message, title = '<Tentative> GuildMate', action) => {
+const showTrayNotification = (message, title = APP_NAME, action) => {
   tray.displayBalloon({
     title,
     icon: getAppIcon(),
@@ -67,7 +75,14 @@ const createTray = () => {
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Open',
-      click: () => mainWindow.show()
+      click: () => showApplication()
+    },
+    {
+      label: 'Reset',
+      click: () => {
+        store.clear();
+        app.relaunch();
+      }
     },
     {
       label: 'Exit',
@@ -75,14 +90,9 @@ const createTray = () => {
     }
   ]);
 
-  tray.setToolTip('<Tentative> GuildMate');
+  tray.setToolTip(APP_NAME);
   tray.setContextMenu(contextMenu);
-  tray.on('click', () => mainWindow.show());
-  showTrayNotification(
-    'Syncing guild info...', 
-    '<Tentative> GuildMate Running',
-    () => mainWindow.show()
-  );
+  tray.on('click', showApplication);
 };
 
 const preventMultipleInstances = () => {
@@ -93,11 +103,15 @@ const preventMultipleInstances = () => {
   } else {
     app.on('second-instance', () => {
       if (mainWindow) {
-        mainWindow.show();
-        mainWindow.focus();
+        showApplication();
       }
     })
   }
+};
+
+const showApplication = () => {
+  mainWindow.show();
+  mainWindow.focus();
 };
 
 const closeApplication = () => {
@@ -109,10 +123,19 @@ app.whenReady().then(() => {
   preventMultipleInstances();
   createTray();
   createWindow();
+  handleErrors();
+  initializeStore();
   initializeWatcher();
+
+  showTrayNotification(
+    'Now syncing guild info', 
+    `${APP_NAME} Running`,
+    showApplication
+  );
 });
 
 module.exports = {
   showTrayNotification,
+  showApplication,
   closeApplication
 };
