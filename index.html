@@ -6,27 +6,25 @@
 </head>
 
 <body>
-  <div id="header">&lt;Tentative&&gt; GuildMate</div>
   <div id="content">
     <div id="logoContainer">
       <img src="src/img/tentative.png" alt="&lt;Tentative&gt; GuildMate" />
     </div>
-    <div id="username"></div>
-    <div id="gamePathDisplay">
-      <div id="currentGamePath"></div>
-      <button onclick="editGamePath()">Edit Game Path</button>
+    <h4>World of Warcraft Game Path</h4>
+    <div id="gamePathDisplay" title="Click to edit">
+      <div id="currentGamePath" onclick="editGamePath()"></div>
     </div>
     <div id="gamePathInput" class="inputContainer">
       <input id="gamePath" type="text" placeholder="Enter WoW Classic Game Path" />
-      <button onclick="updateGamePath()">Update</button>
+      <div class="button" onclick="updateGamePath()">&#10004;</div>
     </div>
     <div id="errorContainer"></div>
   </div>
-  <div class="attribution">
+  <div id="attribution">
     <div>
       Icons made by
-        <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a> from 
-        <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+      <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from
+      <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
     </div>
   </div>
   <script src="index.js"></script>

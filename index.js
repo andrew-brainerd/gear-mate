@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentGamePath = store.get('gamePath') || DEFAULT_GAME_PATH;
 
   setValue('gamePath', currentGamePath);
-  setText('currentGamePath', `Game Path: ${currentGamePath}`);
+  setText('currentGamePath', currentGamePath);
 });
 
 const editGamePath = () => {
@@ -27,7 +27,7 @@ const editGamePath = () => {
 const updateGamePath = () => {
   const gamePath = getValue('gamePath');
 
-  setText('currentGamePath', `Game Path: ${gamePath}`);
+  setText('currentGamePath', gamePath);
   hideElement('gamePathInput');
   showElement('gamePathDisplay');
 

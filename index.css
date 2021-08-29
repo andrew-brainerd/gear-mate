@@ -3,6 +3,10 @@
   src: url('./fonts/Urbanist.ttf')
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   align-items: center;
   background: #282c34;
@@ -18,73 +22,76 @@ body {
   z-index: 0;
 }
 
-#header {
-  background: #4d4d4d;
-  color: white;
-  display: none;
-  height: 25px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  text-align: center;
-  z-index: 5;
-  -webkit-app-region: drag;
-}
-
 #content {
   height: 350px;
+  margin: auto;
   position: relative;
   text-align: center;
   top: -50px;
   z-index: 1;
+  width: 95%;
 }
 
-img {
-  margin: 25px auto;
-  width: 100px;
-}
-
-h3 {
+h4 {
+  margin-bottom: 7px;
   text-align: center;
-}
-
-button {
-  margin: 10px 0;
 }
 
 #logoContainer {
   height: 175px;
 }
 
-#gamePathInput {
-  display: none;
+#logoContainer img {
+  margin: 25px auto;
+  width: 150px;
 }
 
-#username, #connectCode {
-  font-size: 20px;
-  margin: 10px 0;
+#gamePathInput {
+  display: none;
+  margin: auto;
+  width: 90%;
+}
+
+#gamePathInput .button {
+  border-radius: 10px;
+  background: #00ce8e;
+  cursor: pointer;
+  margin-top: 5px;
+  opacity: 0.8;
+  padding: 10px;
+  transition: all 0.5s ease;
+}
+
+#gamePathInput .button:hover {
+  opacity: 1;
 }
 
 #gamePathDisplay {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-#dropContainer {
-  align-items: center;
-  border: 2px dashed black;
-  display: none;
-  justify-content: center;
-  margin: 25px auto 0 auto;
-  position: relative;
-  height: 100px;
+  cursor: pointer;
+  margin: auto;
   width: 90%;
-  z-index: 5;
 }
 
-.attribution {
+#currentGamePath, #gamePath {
+  background: #7e8085;
+  border-radius: 10px;
+  color: black;
+  font-family: 'Urbanist', sans-serif;
+  font-size: 18px;
+  margin: auto;
+  overflow: hidden;
+  padding: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+#gamePath {
+  background: white;
+}
+
+#attribution {
   font-size: 12px;
+  position: relative;
+  top: -50px;
 }
