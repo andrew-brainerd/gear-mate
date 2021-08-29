@@ -80,7 +80,8 @@ const createTray = () => {
   tray.on('click', () => mainWindow.show());
   showTrayNotification(
     'Syncing guild info...', 
-    '<Tentative> GuildMate Running'
+    '<Tentative> GuildMate Running',
+    () => mainWindow.show()
   );
 };
 

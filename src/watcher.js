@@ -1,6 +1,6 @@
 const chokidar = require('chokidar');
 const log = require('electron-log');
-const { getSavedVariablesPath } = require('./utils/getSavedVariablesPath');
+const { getSavedVariablesPath } = require('./utils/paths');
 const { parseSavedGuildInfo } = require('./utils/parseGuild');
 const { parseSavedGear } = require('./utils/parseGear');
 

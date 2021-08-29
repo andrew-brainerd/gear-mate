@@ -1,9 +1,15 @@
+@font-face {
+  font-family: 'Urbanist';
+  src: url('./fonts/Urbanist.ttf')
+}
+
 body {
   align-items: center;
-  background: #7383BF;
+  background: #282c34;
+  color: white;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
+  font-family: 'Urbanist', sans-serif;
   height: 450px;
   justify-content: center;
   overflow: hidden;
