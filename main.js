@@ -1,12 +1,12 @@
 require('dotenv').config();
 const { app, BrowserWindow, screen, Tray, Menu, ipcMain } = require('electron');
-const noop = require('./src/utils/noop');
 const log = require('electron-log');
 const { handleErrors}  = require('./src/utils/errors');
 const { autoLaunchApplication } = require('./src/autoLaunch');
 const { initializeStore, getStore } = require('./src/store');
 const { initializeAddons } = require('./src/addons');
 const { initializeWatcher } = require('./src/watcher');
+const { showNotification } = require('./src/utils/notifications');
 const { APP_NAME } = require('./src/constants');
 const getAppIcon = require('./getAppIcon');
 
@@ -14,6 +14,8 @@ let tray = null;
 let mainWindow = null;
 
 const store = getStore();
+
+app.setAppUserModelId(APP_NAME);
 
 const createWindow = () => {
   const primaryDisplay = screen.getPrimaryDisplay();
@@ -53,22 +55,6 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 };
 
-const showTrayNotification = (message, title = APP_NAME, action = showApplication) => {
-  tray.displayBalloon({
-    title,
-    icon: getAppIcon(),
-    content: message,
-    respectQuietTime: true
-  });
-
-  tray.removeAllListeners(['balloon-click']);
-
-  tray.once('balloon-click', e => {
-    e.preventDefault();
-    action ? action() : noop();
-  });
-};
-
 const createTray = () => {
   tray = new Tray(getAppIcon());
   const contextMenu = Menu.buildFromTemplate([
@@ -80,7 +66,7 @@ const createTray = () => {
       label: 'Reset',
       click: () => {
         store.clear();
-        app.quit();
+        app.relaunch();
       }
     },
     {
@@ -120,13 +106,11 @@ const closeApplication = () => {
 const initializeApp = () => {
   initializeStore();
   initializeAddons().then(err => {
-    if (!err) {
+    if (err) {
+      showNotification(err.message, 'Error');
+    } else {
       initializeWatcher();
-      showTrayNotification(
-        'Now syncing guild info', 
-        `${APP_NAME} Running`,
-        showApplication
-      );
+      showNotification('Now syncing guild data', `${APP_NAME} Running`);
     }
   });
 };
@@ -145,7 +129,6 @@ app.whenReady().then(() => {
 });
 
 module.exports = {
-  showTrayNotification,
   showApplication,
   closeApplication,
   initializeApp

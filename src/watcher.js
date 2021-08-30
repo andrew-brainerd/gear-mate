@@ -21,7 +21,6 @@ const initializeWatcher = async () => {
   if (watcher) {
     log.info('Closing Watcher');
     await watcher.close();
-    watcher = null;
   }
 
   if (gearMatePath && guildMatePath) {
@@ -49,11 +48,6 @@ const initializeWatcher = async () => {
         log.error('Unhandled file change: ', path);
       }
     });
-  } else {
-    require('../main').showTrayNotification(
-      'Invalid WoW game path provided',
-      'Error'
-    );
   }
 };
 

@@ -40,11 +40,7 @@ function parseSavedGear(filePath) {
     const characterName = getCharacterName(parsedData);
     const characterClass = getCharacterClass(parsedData);
     const gearData = getGearData(parsedData);
-
-    const character = {
-      characterName,
-      characterClass
-    };
+    const character = { characterName, characterClass };
 
     const gear = gearData.map(field => {
       if (field.value.fields) {
@@ -60,8 +56,6 @@ function parseSavedGear(filePath) {
     }).filter(item => item.itemId);
 
     log.info(`Updating gear for ${characterName}`);
-
-    require('../../main').showTrayNotification(`Uploaded gear for ${characterName}`, 'Updated Gear');
 
     gearUpdated(character, gear);
   } catch (err) {
