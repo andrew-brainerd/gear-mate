@@ -1,10 +1,10 @@
 require('dotenv').config();
-const { app, BrowserWindow, screen, Tray, Menu } = require('electron');
-const Store = require('electron-store');
+const { app, BrowserWindow, screen, Tray, Menu, ipcMain } = require('electron');
 const noop = require('./src/utils/noop');
+const log = require('electron-log');
 const { handleErrors}  = require('./src/utils/errors');
 const { autoLaunchApplication } = require('./src/autoLaunch');
-const { initializeStore } = require('./src/store');
+const { initializeStore, getStore } = require('./src/store');
 const { initializeAddons } = require('./src/addons');
 const { initializeWatcher } = require('./src/watcher');
 const { APP_NAME } = require('./src/constants');
@@ -13,7 +13,7 @@ const getAppIcon = require('./getAppIcon');
 let tray = null;
 let mainWindow = null;
 
-const store = new Store();
+const store = getStore();
 
 const createWindow = () => {
   const primaryDisplay = screen.getPrimaryDisplay();
@@ -117,26 +117,36 @@ const closeApplication = () => {
   mainWindow.destroy();
 };
 
+const initializeApp = () => {
+  initializeStore();
+  initializeAddons().then(err => {
+    if (!err) {
+      initializeWatcher();
+      showTrayNotification(
+        'Now syncing guild info', 
+        `${APP_NAME} Running`,
+        showApplication
+      );
+    }
+  });
+};
+
+ipcMain.handle('game-path-updated', () => {
+  initializeApp();
+});
+
 app.whenReady().then(() => {
   autoLaunchApplication();
   preventMultipleInstances();
   createTray();
   createWindow();
   handleErrors();
-  initializeStore();
-  initializeAddons().then(() => {
-    initializeWatcher();
-  });
-
-  showTrayNotification(
-    'Now syncing guild info', 
-    `${APP_NAME} Running`,
-    showApplication
-  );
+  initializeApp();
 });
 
 module.exports = {
   showTrayNotification,
   showApplication,
-  closeApplication
+  closeApplication,
+  initializeApp
 };

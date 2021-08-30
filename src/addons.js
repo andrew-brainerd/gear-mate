@@ -1,11 +1,15 @@
 const fs = require('fs');
 const log = require('electron-log');
 const { downloadRepo } = require('./utils/download');
-const { getAddonPath, getAddonsPath } = require('./utils/paths');
+const { getAddonPath, getAddonsPath, hasValidGamePath } = require('./utils/paths');
 
 const initializeAddons = async () => {
-  if (!hasGearMateInstalled() || !hasGuildMateInstalled()) {
-    return downloadAddons(getAddonsPath());
+  if (hasValidGamePath()) {
+    if ((!hasGearMateInstalled() || !hasGuildMateInstalled())) {
+      return downloadAddons(getAddonsPath());
+    }
+  } else {
+    return new Error('Invalid game path');;
   }
 };
 

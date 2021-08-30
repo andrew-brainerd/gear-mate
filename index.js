@@ -1,8 +1,8 @@
-const Store = require('electron-store');
+const { ipcRenderer } = require('electron');
 const log = require('electron-log');
-const { initializeWatcher } = require('./src/watcher');
+const { getStore } = require('./src/store');
 
-const store = new Store();
+const store = getStore();
 
 const getById = id => document.getElementById(id);
 const getValue = id => getById(id).value;
@@ -30,8 +30,8 @@ const updateGamePath = () => {
   hideElement('gamePathInput');
   showElement('gamePathDisplay');
 
-  log.info('Updating game path to', gamePath);
+  log.info('Updated game path to', gamePath);
   store.set('gamePath', gamePath);
 
-  initializeWatcher();
+  ipcRenderer.invoke('game-path-updated');
 };

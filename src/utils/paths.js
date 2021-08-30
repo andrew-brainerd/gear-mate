@@ -1,9 +1,9 @@
 const fs = require('fs');
 const log = require('electron-log');
-const Store = require('electron-store');
+const { getStore } = require('../store');
 const { ADDONS_PATH, WTF_PATH } = require('../constants');
 
-const store = new Store();
+const store = getStore();
 
 const getAccount = async (wtfPath, addonName) => {
   let account = null;
@@ -57,8 +57,13 @@ const getSavedVariablesPath = async addonName => {
   return `${wtfPath}\\${account}\\SavedVariables\\${addonName}.lua`;
 };
 
+const hasValidGamePath = () => {
+  return fs.existsSync(store.get('gamePath'));
+};
+
 module.exports = {
   getAddonPath,
   getAddonsPath,
-  getSavedVariablesPath
+  getSavedVariablesPath,
+  hasValidGamePath
 };

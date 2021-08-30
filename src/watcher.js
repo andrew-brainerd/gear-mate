@@ -19,7 +19,7 @@ const initializeWatcher = async () => {
   const savedVariablesPaths = [gearMatePath, guildMatePath];
 
   if (watcher) {
-    log.info('Closing Watcher...');
+    log.info('Closing Watcher');
     await watcher.close();
     watcher = null;
   }
@@ -37,7 +37,7 @@ const initializeWatcher = async () => {
     });
 
     watcher.on('change', path => {
-      log.info('File Updated:', path);
+      log.info('Addon DB Updated', path);
 
       const addonName = getAddonName(path);
 
