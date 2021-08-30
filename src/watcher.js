@@ -14,13 +14,14 @@ const getAddonName = path => {
 }
 
 const initializeWatcher = async () => {
-  const gearMatePath = await getSavedVariablesPath('GearMate');
+  const gearMatePath = await getSavedVariablesPath('TentativeGearMate');
   const guildMatePath = await getSavedVariablesPath('TentativeGuildMate');
   const savedVariablesPaths = [gearMatePath, guildMatePath];
 
   if (watcher) {
     log.info('Closing Watcher...');
     await watcher.close();
+    watcher = null;
   }
 
   if (gearMatePath && guildMatePath) {
@@ -42,18 +43,16 @@ const initializeWatcher = async () => {
 
       if (addonName === 'TentativeGuildMate') {
         parseSavedGuildInfo(path);
-      } else if (addonName === 'GearMate') {
+      } else if (addonName === 'TentativeGearMate') {
         parseSavedGear(path);
       } else {
         log.error('Unhandled file change: ', path);
       }
     });
   } else {
-    const { showTrayNotification, showApplication } = require('../main');
-    showTrayNotification(
+    require('../main').showTrayNotification(
       'Invalid WoW game path provided',
-      'Error',
-      () => showApplication()
+      'Error'
     );
   }
 };

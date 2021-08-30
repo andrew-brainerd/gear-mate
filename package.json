@@ -1,6 +1,6 @@
 {
   "name": "tentative-guild-mate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "<Tentative> Guild Utility",
   "main": "main.js",
   "author": "Andrew Brainerd",
@@ -8,7 +8,10 @@
   "build": {
     "appId": "com.brainz.tentative-guild-mate",
     "nsis": {
-      "artifactName": "tentative-guild-mate-${version}-${arch}.${ext}"
+      "artifactName": "tentative-guild-mate-${version}-${arch}.${ext}",
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": true,
+      "shortcutName": "<Tentative> GuildMate"
     },
     "files": [
       "**/*",
@@ -30,6 +33,7 @@
     "electron-util": "^0.17.1",
     "luaparse": "^0.3.0",
     "moment": "^2.29.1",
+    "nodegit": "^0.27.0",
     "ramda": "^0.27.1",
     "rimraf": "^3.0.2"
   },

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const luaparse = require('luaparse');
 const log = require('electron-log');
+const { isEmpty } = require('ramda');
 const { guildUpdated } = require('../api');
 
 function getGuildData(data) {
@@ -35,8 +36,10 @@ function parseSavedGuildInfo(filePath) {
 
       return {};
     });
-;
-    guildUpdated(guild);
+
+    if (!isEmpty(guild)) {
+      guildUpdated(guild);
+    }
   } catch (err) {
     console.error(err);
   }

@@ -5,6 +5,7 @@ const noop = require('./src/utils/noop');
 const { handleErrors}  = require('./src/utils/errors');
 const { autoLaunchApplication } = require('./src/autoLaunch');
 const { initializeStore } = require('./src/store');
+const { initializeAddons } = require('./src/addons');
 const { initializeWatcher } = require('./src/watcher');
 const { APP_NAME } = require('./src/constants');
 const getAppIcon = require('./getAppIcon');
@@ -21,8 +22,6 @@ const createWindow = () => {
   const taskBarHeight = 40;
   const xPosition = primaryDisplay.bounds.width - windowWidth;
   const yPosition = primaryDisplay.bounds.height - windowHeight - taskBarHeight;
-
-  console.log('Store', store);
 
   mainWindow = new BrowserWindow({
     frame: true,
@@ -54,7 +53,7 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 };
 
-const showTrayNotification = (message, title = APP_NAME, action) => {
+const showTrayNotification = (message, title = APP_NAME, action = showApplication) => {
   tray.displayBalloon({
     title,
     icon: getAppIcon(),
@@ -81,7 +80,7 @@ const createTray = () => {
       label: 'Reset',
       click: () => {
         store.clear();
-        app.relaunch();
+        app.quit();
       }
     },
     {
@@ -125,6 +124,7 @@ app.whenReady().then(() => {
   createWindow();
   handleErrors();
   initializeStore();
+  initializeAddons();
   initializeWatcher();
 
   showTrayNotification(

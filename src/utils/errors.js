@@ -6,7 +6,7 @@ const handleErrors = () => {
     reportButton: error => {
       openNewGitHubIssue({
         user: 'andrew-brainerd',
-        repo: 'gear-mate',
+        repo: 'tentative-guild-mate',
         body: `\`\`\`\n${error.stack}\n\`\`\`\n\n---\n\n${debugInfo()}`
       });
     }
