@@ -124,8 +124,9 @@ app.whenReady().then(() => {
   createWindow();
   handleErrors();
   initializeStore();
-  initializeAddons();
-  initializeWatcher();
+  initializeAddons().then(() => {
+    initializeWatcher();
+  });
 
   showTrayNotification(
     'Now syncing guild info', 
