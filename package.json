@@ -1,7 +1,7 @@
 {
   "name": "tentative-guild-mate",
-  "version": "0.0.3",
-  "description": "<Tentative> Guild Utility",
+  "version": "0.0.4",
+  "description": "<Tentative> GuildMate",
   "main": "main.js",
   "author": "Andrew Brainerd",
   "license": "MIT",
@@ -30,6 +30,7 @@
     "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
     "electron-unhandled": "^3.0.2",
+    "electron-updater": "^4.3.9",
     "electron-util": "^0.17.1",
     "luaparse": "^0.3.0",
     "moment": "^2.29.1",
@@ -38,16 +39,14 @@
     "rimraf": "^3.0.2"
   },
   "scripts": {
-    "dev": "nodemon main.js",
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
+    "dist": "rm -rf ./dist && electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "deploy": "electron-builder build --win --publish always"
   },
   "devDependencies": {
     "electron": "^9.2.0",
-    "electron-builder": "^22.8.0",
-    "nodemon": "^2.0.4"
+    "electron-builder": "^22.8.0"
   }
 }

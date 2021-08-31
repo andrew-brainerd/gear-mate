@@ -1,5 +1,4 @@
 const Store = require('electron-store');
-const log = require('electron-log');
 const { DEFAULT_GAME_PATH } = require('./constants');
 
 const store = new Store();
@@ -12,6 +11,7 @@ const initializeStore = () => {
   }
 
   store.delete('error');
+  store.delete('autoUpdating');
 };
 
 module.exports = {

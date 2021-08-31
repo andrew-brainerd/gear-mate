@@ -1,8 +1,7 @@
 const AutoLaunch = require('auto-launch');
-const { APP_NAME } = require('./constants');
 
-const autoLaunchApplication = () => {
-  const GuildMateAutoLauncher = new AutoLaunch({ name: APP_NAME });
+const autoLaunchApplication = appName => {
+  const GuildMateAutoLauncher = new AutoLaunch({ name: appName });
   GuildMateAutoLauncher.enable();
 };
 
