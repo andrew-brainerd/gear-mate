@@ -1,4 +1,5 @@
 const axios = require('axios');
+const log = require('electron-log');
 const { prop } = require('ramda');
 
 const basicJsonHeader = { 'Content-Type': 'application/json' };
@@ -13,15 +14,17 @@ const client = axios.create({
 });
 
 const gearUpdated = async (character, gear) => {
+  log.info('Uploading new gear set', { character, gear });
   return await client.post('/gear', { character, gear })
     .then(prop('data'))
-    .catch(err => console.error(err));
+    .catch(err => log.error(err));
 };
 
 const guildUpdated = async guild => {
+  log.info('Uploading new guild roster', { guild });
   return await client.post('/guild', { guild })
     .then(prop('data'))
-    .catch(err => console.error(err));
+    .catch(err => log.error(err));
 };
 
 module.exports = {

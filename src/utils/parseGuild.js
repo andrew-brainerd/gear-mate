@@ -41,7 +41,7 @@ function parseSavedGuildInfo(filePath) {
       guildUpdated(guild);
     }
   } catch (err) {
-    console.error(err);
+    log.error(err);
   }
 }
 

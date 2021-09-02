@@ -8,19 +8,31 @@ const store = getStore();
 const getAccount = async (wtfPath, addonName) => {
   let account = null;
 
+  log.info('Getting account directory');
+
   await new Promise((resolve, reject) => {
     fs.readdir(wtfPath, (err, wtfContents) => {
-      if (err) { return reject(err); }
+      if (err) {
+        log.error('Failed to read WTF directory path', err);
+        return reject(err);
+      }
       wtfContents.forEach(accountDir => {
         const accountDirPath = `${wtfPath}\\${accountDir}`;
         fs.readdir(accountDirPath, (err, accountContents) => {
-          if (err) { return reject(err); }
+          if (err) {
+            log.error('Failed to read Account directory path', err);
+            return reject(err);
+          }
           if (accountContents.includes('SavedVariables')) {
             const savedVariablesPath = `${accountDirPath}\\SavedVariables`;
             fs.readdir(savedVariablesPath, (err, addons) => {
-              if (err) { return reject(err); }
+              if (err) {
+                log.error('Failed to read SavedVariables path', err);
+                return reject(err);
+              }
               if (addons.includes(`${addonName}.lua`)) {
-                resolve(accountDir)
+
+                resolve(accountDir);
               }
             });
           }
@@ -29,7 +41,7 @@ const getAccount = async (wtfPath, addonName) => {
     });
   }).then(accountDir => { account = accountDir; })
   .catch(err => {
-    console.error(err);
+    log.error(err);
     if (err.code === 'ENOENT') {
       store.set('error', 'Invalid WoW Game Path');
     }
@@ -48,13 +60,18 @@ const getAddonsPath = () => {
 
 const getSavedVariablesPath = async addonName => {
   const wtfPath = `${store.get('gamePath')}\\${WTF_PATH}`;
-  const account = await getAccount(wtfPath, addonName);
+  const accountPath = await getAccount(wtfPath, addonName);
 
-  if (!account) {
+  if (!accountPath) {
+    log.error(`Unable to locate account directory`);
     return null;
   }
 
-  return `${wtfPath}\\${account}\\SavedVariables\\${addonName}.lua`;
+  const savedVariablesPath = `${wtfPath}\\${accountPath}\\SavedVariables\\${addonName}.lua`;
+
+  log.info(`SavedVariables for ${addonName} located at ${savedVariablesPath}`);
+
+  return savedVariablesPath;
 };
 
 const hasValidGamePath = () => {

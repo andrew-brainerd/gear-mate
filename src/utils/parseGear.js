@@ -59,7 +59,7 @@ function parseSavedGear(filePath) {
 
     gearUpdated(character, gear);
   } catch (err) {
-    console.error(err);
+    log.error(err);
   }
 }
 
