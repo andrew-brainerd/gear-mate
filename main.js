@@ -134,7 +134,10 @@ app.on('ready', () => {
   createTray();
   createWindow();
   handleErrors();
-  checkForUpdates();
+  if (process.env.NODE_ENV !== 'development') {
+    checkForUpdates()
+    setInterval(checkForUpdates, 60000);
+  }
   initializeApp();
 });
 

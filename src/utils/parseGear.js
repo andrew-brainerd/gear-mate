@@ -64,7 +64,7 @@ function parseSavedGear(filePath) {
 }
 
 function removeQuotes(str) {
-  return str.replace(/"/g, '');
+  return str && str.replace(/"/g, '');
 }
 
 module.exports = {
