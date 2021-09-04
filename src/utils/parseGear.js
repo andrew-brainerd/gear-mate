@@ -1,6 +1,7 @@
 const fs = require('fs');
-const log = require('electron-log');
 const luaparse = require('luaparse');
+const log = require('electron-log');
+const { isEmpty } = require('ramda');
 const { gearUpdated } = require('../api');
 
 function getCharacterName(data) {
@@ -57,7 +58,9 @@ function parseSavedGear(filePath) {
 
     log.info(`Updating gear for ${characterName}`);
 
-    gearUpdated(character, gear);
+    if (!isEmpty(gear)) {
+      gearUpdated(character, gear);
+    }
   } catch (err) {
     log.error(err);
   }
