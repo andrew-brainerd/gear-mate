@@ -1,24 +1,23 @@
 const fs = require('fs');
 const log = require('electron-log');
+const { ADDON_LIST } = require('./constants');
 const { downloadRepo } = require('./utils/download');
 const { getAddonPath, getAddonsPath, hasValidGamePath } = require('./utils/paths');
 
 const initializeAddons = async () => {
   if (hasValidGamePath()) {
-    if ((!hasGearMateInstalled() || !hasGuildMateInstalled())) {
-      return downloadAddons(getAddonsPath());
-    }
+    return downloadAddons(ADDON_LIST, getAddonsPath());
   } else {
     return new Error('Invalid game path');;
   }
 };
 
-const hasGearMateInstalled = () => {
-  return fs.existsSync(getAddonPath('TentativeGearMate'));
+const hasAddonInstalled = addon => {
+  return fs.existsSync(getAddonPath(addon));
 };
 
-const hasGuildMateInstalled = () => {
-  return fs.existsSync(getAddonPath('TentativeGuildMate'));
+const hasLatestAddonVersion = addonName => {
+  return false;
 };
 
 const downloadAddon = async (addonName, addonDir) => {
@@ -26,20 +25,17 @@ const downloadAddon = async (addonName, addonDir) => {
   return downloadRepo(addonName, `${addonDir}\\${addonName}`);
 };
 
-const downloadAddons = async addonsDir => {
-  if (!hasGuildMateInstalled()) {
-    fs.mkdirSync(`${addonsDir}\\TentativeGuildMate`);
-    await downloadAddon('TentativeGuildMate', addonsDir).then(() => {
-      log.info('Installed <Tentative> GuildMate Addon');
+const downloadAddons = async (addonList, addonsDir) => {
+  await Promise.all(addonList.map(async addon => {
+    if (hasAddonInstalled(addon) && !hasLatestAddonVersion(addon)) {
+      log.info(`Removing installed ${addon} addon`);9
+      fs.rmdirSync(`${addonsDir}\\${addon}`, { recursive: true });
+    }
+    fs.mkdirSync(`${addonsDir}\\${addon}`);
+    await downloadAddon(addon, addonsDir).then(() => {
+      log.info(`Installed ${addon} Addon`);
     });
-  }
-
-  if (!hasGearMateInstalled()) {
-    fs.mkdirSync(`${addonsDir}\\TentativeGearMate`);
-    await downloadAddon('TentativeGearMate', addonsDir).then(() => {
-      log.info('Installed <Tentative> GearMate Addon');
-    });
-  }
+  }));
 };
 
 module.exports = {

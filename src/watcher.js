@@ -16,6 +16,8 @@ const getAddonName = path => {
 const initializeWatcher = async () => {
   const gearMatePath = await getSavedVariablesPath('TentativeGearMate');
   const guildMatePath = await getSavedVariablesPath('TentativeGuildMate');
+  const spellMatePath = await getSavedVariablesPath('TentativeSpellMate');
+  const craftMatePath = await getSavedVariablesPath('TentativeCraftMate');
   const savedVariablesPaths = [gearMatePath, guildMatePath];
 
   if (watcher) {
@@ -23,7 +25,7 @@ const initializeWatcher = async () => {
     await watcher.close();
   }
 
-  if (gearMatePath && guildMatePath) {
+  if (gearMatePath && guildMatePath && spellMatePath && craftMatePath) {
     savedVariablesPaths.forEach(path => {
       log.info(`Initializing watcher at ${path}`);
     });
