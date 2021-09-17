@@ -9,15 +9,15 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
 autoUpdater.on('checking-for-update', () => {
-  log.info('Checking for application update...');
+  log.debug('Checking for application update...');
 });
 
 autoUpdater.on('update-available', info => {
-  log.info('Application update available');
+  log.debug('Application update available');
 });
 
 autoUpdater.on('update-not-available', info => {
-  log.info('Application update not available');
+  log.debug('Application update not available');
 });
 
 autoUpdater.on('error', err => {
